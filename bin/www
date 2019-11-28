@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('m-express:server');
+var http = require('http');
+var connection  = require('../config/dbServer')
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3000');
+console.log(port)
+app.set('port', port);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ * &
+ * connect dataBase
+ */
+
+connection.connect(function(err) {
+  if (err) {
+      console.log('[query] - :' + err);
+      return;
+  }
+  console.log('[mysql connection connect]  succeed!'); //如果连接成功 控制台输出 success 了
+});
+
+app.listen(app.get('port'), function() {
+  console.log('Express server listening on port ' + app.get('port'));
+});
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
