@@ -1,12 +1,19 @@
 const connection = require('../config/dbServer')
 
-export function findUsers() {
+ function findUsers() {
   let sql = ``
-  connection.query(sql, (err, result) => {
-    if(err) {
-      console.log('[query] - :' + err);
-    }else {
-      return result
-    }
+  let resultPromise = new Promise(function(resolve, reject) {
+    connection.query(sql, (err, result) => {
+      if(err) {
+        console.log('[query] - :' + err);
+      }else {
+        return result
+      }
+    })
   })
+  return resultPromise
+}
+
+module.exports = {
+  findUsers
 }
